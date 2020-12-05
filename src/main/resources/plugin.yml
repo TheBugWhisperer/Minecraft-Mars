@@ -1,0 +1,8 @@
+name: Mars
+main: com.elmakers.mine.bukkit.plugins.MarsPlugin
+version: 1.0
+api-version: 1.16
+website: http://mine.elmakers.com
+author: TheBugWhisperer
+description: Survive on a Minecraft Mars world
+load: STARTUP
