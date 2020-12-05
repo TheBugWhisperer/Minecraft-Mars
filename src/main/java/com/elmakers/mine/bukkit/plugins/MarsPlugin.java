@@ -3,6 +3,7 @@ package com.elmakers.mine.bukkit.plugins;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MarsPlugin extends JavaPlugin implements Listener {
@@ -24,5 +25,11 @@ public class MarsPlugin extends JavaPlugin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         // Put here anything you want to happen when a player joins
     	event.setJoinMessage("Good Luck!");
+    }
+
+    @Override
+    public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
+        getLogger().info("install mars generator in world: " + worldName);
+        return new MarsWorldGenerator(this);
     }
 }
