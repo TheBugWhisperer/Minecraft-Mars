@@ -18,7 +18,7 @@ public class MarsWorldGenerator extends ChunkGenerator {
     public ChunkData generateChunkData(World world, Random random, int chunkX, int chunkZ, BiomeGrid biome) {
         SimplexOctaveGenerator generator = new SimplexOctaveGenerator(new Random(world.getSeed()), 8);
         ChunkData chunk = createChunkData(world);
-        generator.setScale(0.005D);
+        generator.setScale(0.010D);
 
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
