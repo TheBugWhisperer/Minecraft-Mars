@@ -12,7 +12,10 @@ import java.util.List;
 import java.util.Random;
 
 public class MarsWorldGenerator extends ChunkGenerator {
-    private MarsPlugin mars;
+    private static final int SEA_LEVEL = 64;
+    private static final int HIGHEST_PEAK = 110;
+    private static final int LOWEST_LAKE = 60;
+    private final MarsPlugin mars;
 
     public MarsWorldGenerator(MarsPlugin mars) {
         this.mars = mars;
@@ -31,23 +34,53 @@ public class MarsWorldGenerator extends ChunkGenerator {
         generator.setScale(0.010D);
 
         Material blockType;
-        int currentHeight;
+        int maxHeight;
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
-                currentHeight = (int) (generator.noise(chunkX * 16 + x, chunkZ * 16 + z, 0.5D, 0.5D) * 15D + 50D);
+                // This number goes from -1 to 1
+                double noise = generator.noise(chunkX * 16 + x, chunkZ * 16 + z, 0.5D, 0.5D);
+                // This goes from 0 to 1
+                noise = (noise + 1) / 2;
+                // Change noise into a number from lowest lake to highest mountain peak
+                maxHeight = (int) (noise * (HIGHEST_PEAK - LOWEST_LAKE) + LOWEST_LAKE);
 
-                for (int y = currentHeight; y > 0; y--) {
-                    if (y > currentHeight - 3) {
+                for (int y = SEA_LEVEL; y > maxHeight; y--) {
+                    switch (random.nextInt(4)) {
+                        case 0:
+                            blockType = Material.PACKED_ICE;
+                            break;
+                        case 1:
+                            blockType = Material.ICE;
+                            break;
+                        default:
+                            blockType = Material.BLUE_ICE;
+                            break;
+                    }
+                    biome.setBiome(x, y, z, Biome.CRIMSON_FOREST);
+                    chunk.setBlock(x, y, z, blockType);
+                }
+                for (int y = maxHeight; y > 0; y--) {
+                    if (y > maxHeight - 3) {
                         blockType = Material.RED_SAND;
-                    } else if (y > currentHeight - 8) {
+                    } else if (y > maxHeight - 8) {
                         blockType = Material.RED_SANDSTONE;
                     } else {
                         switch (random.nextInt(4)) {
-                            case 0: blockType = Material.RED_TERRACOTTA; break;
-                            case 1: blockType = Material.ORANGE_TERRACOTTA; break;
-                            case 2: blockType = Material.TERRACOTTA; break;
-                            case 3: blockType = Material.YELLOW_TERRACOTTA; break;
-                            default: blockType = Material.BROWN_TERRACOTTA; break;
+                            case 0:
+                                blockType = Material.RED_TERRACOTTA;
+                                break;
+                            case 1:
+                                blockType = Material.ORANGE_TERRACOTTA;
+                                break;
+                            case 2:
+                                blockType = Material.TERRACOTTA;
+                                break;
+                            case 3:
+                                blockType = Material.YELLOW_TERRACOTTA;
+                                break;
+                            default:
+                                blockType = Material.BROWN_TERRACOTTA;
+                                break;
                         }
                     }
 
