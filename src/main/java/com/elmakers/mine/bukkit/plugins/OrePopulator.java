@@ -16,7 +16,7 @@ public class OrePopulator extends BlockPopulator {
             if (random.nextInt(100) < 60) {  // The chance of spawning
                 x = random.nextInt(15);
                 z = random.nextInt(15);
-                y = random.nextInt(40)+20;  // Get randomized coordinates
+                y = world.getHighestBlockYAt(x, z);
                 Material blockType = chunk.getBlock(x, y, z).getType();
                 if (blockType == Material.RED_SAND) {
                     isReplaceable = true;
