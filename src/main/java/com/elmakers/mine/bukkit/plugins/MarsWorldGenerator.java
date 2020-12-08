@@ -2,6 +2,7 @@ package com.elmakers.mine.bukkit.plugins;
 
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
@@ -50,6 +51,7 @@ public class MarsWorldGenerator extends ChunkGenerator {
                         }
                     }
 
+                    biome.setBiome(x, y, z, Biome.CRIMSON_FOREST);
                     chunk.setBlock(x, y, z, blockType);
                 }
                 chunk.setBlock(x, 0, z, Material.BEDROCK);
